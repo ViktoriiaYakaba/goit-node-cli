@@ -18,16 +18,20 @@ async function getContactById(contactId) {
 
 async function removeContact(contactId) {
   const data = await listContacts();
-
+  const index = data.findIndex(item => item.contactId === contactId);
+  if (index === -1) {
+    return 0;
+  }
+  const [result] = data.splice(index, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  return result;
 }
 
-async function addContact(name, email, phone) {
+async function addContact(data) {
   const contacts = await listContacts();
   const newContact = {
     id: nanoid(),
-    name: name,
-    email: email,
-    phone: phone
+    ...data
   };
   contacts.push(newContact);
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));

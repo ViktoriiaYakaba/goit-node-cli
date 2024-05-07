@@ -28,7 +28,7 @@ async function invokeAction({ action, id, name, email, phone }) {
       return console.table(newContact);
 
     case "remove":
-      const deleteContact = contacts.removeContact({ id });
+      const deleteContact = contacts.removeContact( id );
       return console.table(deleteContact);
 
     default:

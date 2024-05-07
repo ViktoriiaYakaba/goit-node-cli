@@ -6,23 +6,23 @@ const contactsPath = path.join(__dirname, './db/contacts.json' );
  
 
 async function listContacts() {
-  const data = await fs.readFile(contactsPath, 'utf-8');
-  return JSON.parse(data);
+  const contacts = await fs.readFile(contactsPath, 'utf-8');
+  return JSON.parse(contacts);
 }
 
 async function getContactById(contactId) {
-  const data = await listContacts();
-  const result = data.find(item => item.contactId === contactId)
+  const contacts = await listContacts();
+  const result = contacts.find(item => item.contactId === contactId)
   return result || null;
 }
 
 async function removeContact(contactId) {
-  const data = await listContacts();
-  const index = data.find(item => item.id === contactId);
+  const contacts = await listContacts();
+  const index = contacts.findIndex(item => item.id === contactId);
   if (index === -1) {
     return null;
   }
-  const [result] = data.splice(index, 1);
+  const [result] = contacts.splice(index, 1);
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return result;
 }
